@@ -61,4 +61,19 @@ class Wechat
 
         return $data;
     }
+    
+    public function sendUniformMessage($params)
+    {
+        $data = $this->post('message/wxopen/template/uniform_send', $params, [
+            'query' => [
+                'access_token' => $this->credential->getAccessToken(),
+            ],
+        ]);
+
+        if ($data['errcode'] != 0) {
+            throw new SendTemplateMessageException($data['errmsg'], $data['errcode'], $data, $this->credential);
+        }
+
+        return $data;
+    }
 }
